@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import tw from "tailwind-styled-components";
-import CardTotal from "../components/Card";
-import RadioButtons from "../components/Radio";
-import Sliders from "../components/Slider";
+import tw from "twin.macro";
+import CardTotal from "../Card";
+import RadioButtons from "../Radio";
+import Sliders from "../Slider";
 
-const Container = tw.div`
+const Wrapper = tw.div`
     gap-5
     flex
     flex-col
     mt-5
 `
 
-const Content = tw.div`
+const Container = tw.div`
     w-full
     flex
     justify-center
-    gap-20
     flex-col
-    
+    gap-5
     md:flex-row
+    md:gap-20
 `
 
-const Data = tw.div`
+const Content = tw.div`
     w-full
 `
 const Input = tw.div`
@@ -56,40 +56,53 @@ export default function CreditExperience(){
     const [interestRate, setInterestRate] = useState(1.5);
     const [period, setPeriod] = useState(yearsPeriods[0]);
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     useEffect(()=>{
-        const calculate = async () =>{
+        const calculateMortgage = async () =>{
             try{
                 setIsLoading(true);
-                const interest = interestRate > 1 ?`annualInterestRate=${interestRate}`:``;
-                const url = `/api/mortgageCalculation?principal=${purchasePrice}&termOfLoan=${period}&${interest}`;
+                setErrorMsg("");
+                const url = `/api/mortgageCalculation?principal=${purchasePrice}&termOfLoan=${period}&annualInterestRate=${interestRate}`;
 
                 await axios.post(url)
                     .then((res:any) => {
-                        if (res.status == 200 ){
-                            let monthlyPayment = res.data.monthlyPayment
+                        if (res.status === 200){
+                            // Request Success
+                            let {monthlyPayment} = res.data ; 
                             setTotalPrice(Number(monthlyPayment))
                             setIsLoading(false)
                         }
                     })
 
-            }catch(err){
-                // console.log(err)
+            } catch(err:any){
+                const status = err.response.status;
+                const {error} = err.response.data;
+                
+                if (status === 404){
+                    // Server not found
+                    setErrorMsg("Server Down")
+                } else if (status === 400){
+                    // Failed Param failed conditions (Interest Rates < 1)
+                    setErrorMsg(error + ". Interest Rates must be greater or equal to 1.")
+                }else{
+                    setErrorMsg("Internal Server Error");
+                }
             }
         }
 
-        calculate();
+        calculateMortgage();
     }, [purchasePrice, interestRate, period])
 
     return(
-        <Container>
+        <Wrapper>
             <Header>
                 <Title>Get started with Digital Credit Experience</Title>
                 <SubTitle>Qualify or apply your mortgage in minutes</SubTitle>
             </Header>
-           
-            <Content>
-                <Data>
+            
+            <Container>
+                <Content>
                     <Input>
                         <Sliders 
                             title={"Purchase Price"}
@@ -104,25 +117,24 @@ export default function CreditExperience(){
                         
                     <Input>
                         <Sliders 
-                                title={"Interest Rate"}
-                                defaultValue={0}
-                                min={0}
-                                max={25}
-                                type={"percent"}
-                                value={interestRate}
-                                onChange={setInterestRate}
-                            />
+                            title={"Interest Rate"}
+                            defaultValue={1.5}
+                            min={1}
+                            max={25}
+                            type={"percent"}
+                            value={interestRate}
+                            onChange={setInterestRate}
+                        />
                     </Input>
 
                     <Input>
                         <RadioButtons yearsList={yearsPeriods} onChange={setPeriod}/>
                     </Input>
-                    
-                </Data>
-                <Data>
-                    <CardTotal total={totalPrice} isLoading={isLoading}/>
-                </Data>
-            </Content>
-        </Container>
+                </Content>
+                <Content>
+                    <CardTotal total={totalPrice} isLoading={isLoading} errorMsg={errorMsg}/>
+                </Content>
+            </Container>
+        </Wrapper>
     )
 }

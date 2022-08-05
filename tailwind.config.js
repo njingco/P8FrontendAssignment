@@ -20,13 +20,16 @@ module.exports = {
         'dark-blue':"#3b4f5b",
         'shadow-blue': "#caddf9",
         'purple':"#4a3071",
+        'dark-purple':"#32224a",
+        'light-purple':"#8c5fcf",
         'title-color':"#41505a",
         'subtitle-color':"#a1adb8",
         'slider-color': "#2e60ca",
-        
+        'error-color': "#f05972",
       },
       fontSize:{
         'total-size': '70px',
+        'total-size-mb': '60px',
         'total-sub-size': '40px',
         'section-title-size':'35px',
         'section-subtitle-size':'25px',

@@ -1,6 +1,5 @@
-import tw from "tailwind-styled-components";
+import tw from "twin.macro";
 import { Slider } from '@material-ui/core';
-import { styled } from "@mui/system";
 import { createTheme , MuiThemeProvider } from "@material-ui/core/styles";
 
 
@@ -33,7 +32,7 @@ const Value = tw.div`
     text-slider-value-size
 `
 const ValueSub = tw.div`
-    text-slider-label-size
+    text-slider-lable-size
 `
 
 const theme = createTheme ({
@@ -41,7 +40,6 @@ const theme = createTheme ({
       MuiSlider: {
         root:{
             color: "#2e60ca",
-            
         },
         thumb:{
             color: "white",
@@ -128,15 +126,13 @@ export default function Sliders({title, defaultValue, min, max, type, value, onC
             <MuiThemeProvider theme={theme}>
                 <Slider 
                     defaultValue={defaultValue} 
-                    step={type=="dollar"?10000:0.5} 
+                    step={type=="dollar"?500:0.5} 
                     min={min}
                     max={max}
                     marks={marks}
                     onChange={handleChange}
                 />
             </MuiThemeProvider>
-            
-            
         </>
     )
 }

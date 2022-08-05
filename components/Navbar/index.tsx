@@ -1,14 +1,12 @@
 
-import tw from "tailwind-styled-components";
+import tw from "twin.macro";
 import { BiMenu } from 'react-icons/bi'
 
 const Container = tw.div`
     w-full
     flex
     justify-center  
-   
     shadow-lg
-    shadow-shadow-blue
     bg-white   
 `
 
@@ -23,6 +21,7 @@ const Content = tw.div`
 
 const Logo = tw.img`
     h-6
+    cursor-pointer
 `
 
 const Menu = tw.div`

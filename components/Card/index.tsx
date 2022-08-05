@@ -1,12 +1,16 @@
-import tw from "tailwind-styled-components";
+import tw from "twin.macro";
+import styled from "styled-components";
+import { HiArrowNarrowRight } from 'react-icons/hi'
 
 interface Props{
     total:number
     isLoading:boolean,
+    errorMsg:string
 }
 
 
-const Container = tw.div`
+const Wrapper = tw.div`
+    relative
     bg-white
     rounded-3xl
     flex
@@ -16,6 +20,7 @@ const Container = tw.div`
     drop-shadow-md
     w-full
     h-72
+    p-5
     md:h-80
     md:max-w-xl
 `
@@ -25,7 +30,6 @@ const Content = tw.div`
     flex-col
     justify-center
     items-center
-    m-5
 `
 
 const Title = tw.div`
@@ -42,26 +46,74 @@ const Total = tw.div`
 `
 
 const Value = tw.div`
-    text-total-size
+    text-total-size-mb
+    md:text-total-size
 `
 const ValueSub = tw.div`
     text-total-sub-size
 `
 
-const ApplyToday = tw.button`
+const Loading = tw`
+    text-2xl
+`
+
+const ErrorMessage = tw`
+    text-error-color
+    text-lg
+`
+
+const Button = tw`
+    transition-all
+    duration-300
     absolute
     bottom-[-25px]
     bg-purple
     rounded-full
-    w-46
-    p-4
+    p-5
     pl-7
     pr-7
     text-white
     font-medium
+    flex
+    items-center
+    justify-center
+    w-44
+    hover:shadow-lg 
+    hover:gap-2
+    hover:w-52
 `
 
-export default function CardTotal({total, isLoading}:Props){
+const ArrowHidden = tw`
+    transition-all
+    duration-300
+    invisible
+    w-0
+`
+const ArrowVisible = tw`
+    transition-all
+    duration-300
+    w-6
+    visible
+    flex
+    items-end
+`
+const ButtonText = tw.div``
+
+const ApplyButton = styled.button`
+    ${Button}
+
+    .Arrow {
+        ${ArrowHidden}
+    }
+
+    &:hover{
+        .Arrow {
+            ${ArrowVisible}
+        }
+    }
+`
+
+export default function CardTotal({total, isLoading, errorMsg}:Props){
     const value = total.toFixed(2);
     const number = value.toString().split('.')[0];
     const decimal = value.toString().split('.')[1];
@@ -78,14 +130,25 @@ export default function CardTotal({total, isLoading}:Props){
         </Content>
 
    return (
-        <Container>
-        { isLoading? 
-            <Title>Calculating...</Title>
-            :
-            TotalView
-        }
-            <ApplyToday onClick={() => {console.log("Apply Today")}}>Apply Today</ApplyToday>           
-
-        </Container>
+        <Wrapper>            
+            {errorMsg.length > 0 ? 
+                <Title style={ErrorMessage}>{errorMsg}</Title> :
+                (
+                    isLoading? 
+                    <Title style={Loading}>Calculating...</Title>
+                    :
+                    <>
+                    {TotalView}
+                    <ApplyButton 
+                        data-mdb-ripple="true"
+                        data-mdb-ripple-color="light"
+                        onClick={() => {console.log("Apply Today")}}>
+                            <ButtonText>Apply Today</ButtonText>
+                            <div className={"Arrow"}><HiArrowNarrowRight  size="1.5rem" color="white"/></div>
+                    </ApplyButton>           
+                    </>
+                )
+            }
+        </Wrapper>
     )
 }
