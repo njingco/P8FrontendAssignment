@@ -7,18 +7,17 @@ const Page = tw.div`
   w-full
   flex-col
   justify-center
-  bg-light-blue
   flex
   justify-center
   items-center
+
 `
 
 const Container = tw.div`
   w-full
-  max-w-5xl
-  h-screen
-  p-3
-  mt-12
+  max-w-6xl
+  p-5
+  pb-16
 `
 
 const Home: NextPage = () => {

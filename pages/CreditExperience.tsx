@@ -8,13 +8,14 @@ const Container = tw.div`
     gap-5
     flex
     flex-col
+    mt-5
 `
 
 const Content = tw.div`
     w-full
     flex
     justify-center
-    gap-10
+    gap-20
     flex-col
     
     md:flex-row
@@ -23,14 +24,22 @@ const Content = tw.div`
 const Data = tw.div`
     w-full
 `
+const Input = tw.div`
+    w-full
+    mt-6
+    mb-6
+`
 
 const Title = tw.h1`
-    text-title
+    text-title-color
+    text-2xl
     font-bold
 `
 
 const SubTitle = tw.h2`
-    text-subtitle
+    text-subtitle-color
+    text-base
+    font-medium
 `
 
 const Header = tw.div`
@@ -52,14 +61,15 @@ export default function CreditExperience(){
         const calculate = async () =>{
             try{
                 setIsLoading(true);
-                
-                const url = `/api/mortgageCalculation?principal=${purchasePrice}&annualInterestRate=${interestRate}&termOfLoan=${period}`;
+                const interest = interestRate > 1 ?`annualInterestRate=${interestRate}`:``;
+                const url = `/api/mortgageCalculation?principal=${purchasePrice}&termOfLoan=${period}&${interest}`;
+
                 await axios.post(url)
                     .then((res:any) => {
                         if (res.status == 200 ){
-                            setIsLoading(false)
                             let monthlyPayment = res.data.monthlyPayment
                             setTotalPrice(Number(monthlyPayment))
+                            setIsLoading(false)
                         }
                     })
 
@@ -80,29 +90,37 @@ export default function CreditExperience(){
            
             <Content>
                 <Data>
-                    <Sliders 
-                        title={"Purchase Price"}
-                        defaultValue={250000}
-                        min={50000}
-                        max={2500000}
-                        type={"dollar"}
-                        value={purchasePrice}
-                        onChange={setTotalpurchasePrice}
-                    />
+                    <Input>
+                        <Sliders 
+                            title={"Purchase Price"}
+                            defaultValue={250000}
+                            min={50000}
+                            max={2500000}
+                            type={"dollar"}
+                            value={purchasePrice}
+                            onChange={setTotalpurchasePrice}
+                        />
+                    </Input>
+                        
+                    <Input>
+                        <Sliders 
+                                title={"Interest Rate"}
+                                defaultValue={0}
+                                min={0}
+                                max={25}
+                                type={"percent"}
+                                value={interestRate}
+                                onChange={setInterestRate}
+                            />
+                    </Input>
 
-                    <Sliders 
-                        title={"Interest Rate"}
-                        defaultValue={0}
-                        min={0}
-                        max={25}
-                        type={"percent"}
-                        value={interestRate}
-                        onChange={setInterestRate}
-                    />
-                    <RadioButtons yearsList={yearsPeriods} onChange={setPeriod}/>
+                    <Input>
+                        <RadioButtons yearsList={yearsPeriods} onChange={setPeriod}/>
+                    </Input>
+                    
                 </Data>
                 <Data>
-                    <CardTotal total={totalPrice}/>
+                    <CardTotal total={totalPrice} isLoading={isLoading}/>
                 </Data>
             </Content>
         </Container>

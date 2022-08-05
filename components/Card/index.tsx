@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 
 interface Props{
     total:number
+    isLoading:boolean,
 }
 
 
@@ -28,7 +29,7 @@ const Content = tw.div`
 `
 
 const Title = tw.div`
-    text-subtitle
+    text-subtitle-color
     font-bold
     text-center
 `
@@ -60,24 +61,31 @@ const ApplyToday = tw.button`
     font-medium
 `
 
-export default function CardTotal({total}:Props){
+export default function CardTotal({total, isLoading}:Props){
     const value = total.toFixed(2);
     const number = value.toString().split('.')[0];
     const decimal = value.toString().split('.')[1];
 
+    const TotalView = 
+        <Content>
+            <Title>Your total monthly payment will be</Title>
+            <Total>
+                <ValueSub>$</ValueSub>
+                <Value>{number}</Value>
+                <ValueSub>{decimal}</ValueSub>
+            </Total>
+            <Title>/month</Title>
+        </Content>
 
-    return (
+   return (
         <Container>
-            <Content>
-                <Title>Your total monthly payment will be</Title>
-                <Total>
-                    <ValueSub>$</ValueSub>
-                    <Value>{number}</Value>
-                    <ValueSub>{decimal}</ValueSub>
-                </Total>
-                <Title>/month</Title>
-            </Content>
-            <ApplyToday onClick={() => {console.log("Apply Today")}}>Apply Today</ApplyToday>
+        { isLoading? 
+            <Title>Calculating...</Title>
+            :
+            TotalView
+        }
+            <ApplyToday onClick={() => {console.log("Apply Today")}}>Apply Today</ApplyToday>           
+
         </Container>
     )
 }

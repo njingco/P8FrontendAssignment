@@ -1,7 +1,8 @@
 import tw from "tailwind-styled-components";
-import { Slider as MaterialSlider  } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { Slider } from '@material-ui/core';
+import { styled } from "@mui/system";
+import { createTheme , MuiThemeProvider } from "@material-ui/core/styles";
+
 
 type numberType = "dollar" | "percent";
 
@@ -17,14 +18,14 @@ interface Props {
 
 const Title = tw.div`
     font-bold
-    text-input-title-size
-    text-subtitle
+    text-lg
+    text-title-color
     pb-2
 `
 
 const ValueContainer = tw.div`
     flex
-    text-title
+    text-title-color
     font-medium
 `
 
@@ -35,26 +36,43 @@ const ValueSub = tw.div`
     text-slider-label-size
 `
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      width: 300
-    },
-    margin: {
-      height: theme.spacing(3)
-    },
-    thumb: {
-      background: '#2e60ca',
-
-    },
-    
-  }));
-  
-
+const theme = createTheme ({
+    overrides: {
+      MuiSlider: {
+        root:{
+            color: "#2e60ca",
+            
+        },
+        thumb:{
+            color: "white",
+            borderStyle: "solid",
+            borderWidth: "2px",
+            borderColor: "#2e60ca",
+        },
+        rail:{
+            color:"#a1adb8",
+        },
+        mark:{
+            color:"#a1adb8",
+        },
+        markLabel:{
+            color:'#3b4f5b',
+            weight:'bold',
+            marginTop:6,
+            transform:'translateX(-100%)',
+            '&[data-index="0"]' : {
+              transform:'none'
+            },
+        },
+        markLabelActive:{
+            color:"#3b4f5b",
+            weight:'bold',
+        },
+      }
+    }
+  });
 
 export default function Sliders({title, defaultValue, min, max, type, value, onChange}:Props){
-    const classes = useStyles();
-
-
     const handleChange = (event:any, newValue:any) => {
         onChange(newValue);
     }
@@ -81,11 +99,12 @@ export default function Sliders({title, defaultValue, min, max, type, value, onC
     const marks=[
         {
             value:min,
-            label:getLabel(min, type)
+            label:getLabel(min, type),
         },
         {
             value:max,
-            label:getLabel(max, type)
+            label:getLabel(max, type),
+
         }
     ]
 
@@ -106,15 +125,17 @@ export default function Sliders({title, defaultValue, min, max, type, value, onC
                
             </ValueContainer>
            
-            <MaterialSlider 
-                defaultValue={defaultValue} 
-                aria-label="Default" 
-                step={type=="dollar"?10000:0.5} 
-                min={min}
-                max={max}
-                marks={marks}
-                onChange={handleChange}
-            />
+            <MuiThemeProvider theme={theme}>
+                <Slider 
+                    defaultValue={defaultValue} 
+                    step={type=="dollar"?10000:0.5} 
+                    min={min}
+                    max={max}
+                    marks={marks}
+                    onChange={handleChange}
+                />
+            </MuiThemeProvider>
+            
             
         </>
     )
