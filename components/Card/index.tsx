@@ -1,7 +1,6 @@
 import tw from "twin.macro";
-import styled from "styled-components";
-import { HiArrowNarrowRight } from "react-icons/hi";
 import content from "../../assets/content_en.json";
+import Button from "../Button/Button";
 
 interface Props {
   total: number;
@@ -63,63 +62,6 @@ const ErrorMessage = tw`
     text-lg
 `;
 
-const Button = tw`
-    transition-all
-    duration-300
-    absolute
-    bottom-[-25px]
-    bg-purple
-    rounded-full
-    p-5
-    pl-7
-    pr-7
-    text-white
-    font-medium
-    flex
-    items-center
-    justify-center
-    w-44
-    hover:shadow-lg 
-    hover:gap-2
-    hover:w-52
-    focus:shadow-lg 
-    focus:gap-2
-    focus:w-52
-`;
-
-const ArrowHidden = tw`
-    transition-all
-    duration-300
-    invisible
-    w-0
-`;
-
-const ArrowVisible = tw`
-    transition-all
-    duration-300
-    w-6
-    visible
-    flex
-    items-end
-`;
-
-const ButtonText = tw.div``;
-
-const ApplyButton = styled.button`
-  ${Button}
-
-  .Arrow {
-    ${ArrowHidden}
-  }
-
-  &:hover,
-  :focus {
-    .Arrow {
-      ${ArrowVisible}
-    }
-  }
-`;
-
 export default function CardTotal({ total, isLoading, errorMsg }: Props) {
   const value = total.toFixed(2);
   const number = value.toString().split(".")[0];
@@ -146,18 +88,7 @@ export default function CardTotal({ total, isLoading, errorMsg }: Props) {
       ) : (
         <>
           {TotalView}
-          <ApplyButton
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
-            onClick={() => {
-              console.log(content.apply);
-            }}
-          >
-            <ButtonText>{content.apply}</ButtonText>
-            <div className={"Arrow"}>
-              <HiArrowNarrowRight size="1.5rem" color="white" />
-            </div>
-          </ApplyButton>
+          <Button label={content.apply} />
         </>
       )}
     </Wrapper>
