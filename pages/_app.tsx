@@ -1,13 +1,18 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Layout from '../components/Layout/Layout';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import Layout from "../components/Layout/Layout";
+import { appWithTranslation } from "next-i18next";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Layout>
-      <Component {...pageProps}/>  
+      <Head>
+        <title>P8 Takehome</title>
+      </Head>
+      <Component {...pageProps} />
     </Layout>
-  )
+  );
 }
 
-export default MyApp
+export default appWithTranslation(MyApp);

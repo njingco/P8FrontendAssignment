@@ -1,0 +1,23 @@
+{
+  "title": "Get started with Digital Credit Experience",
+  "subtitle": "Qualify or apply your mortgage in minutes",
+
+  "purchase": "Purchase Price",
+  "Interest": "Interest Rate",
+  "period": "Period",
+
+  "calculating": "Calculating...",
+  "apply": "Apply Today",
+  "currency": { "symbol": "$", "currency": "dollar", "country": "CAD" },
+  "totalPayment": "Your total monthly payment will be",
+  "date": {
+    "day": "Day",
+    "month": "Month",
+    "year": "Year"
+  },
+  "error": {
+    "serverDown": "Server Down",
+    "invalidInterest": ". Interest Rates must be greater or equal to 1.",
+    "internalServerError": "Internal Server Error"
+  }
+}

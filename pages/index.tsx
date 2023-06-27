@@ -1,10 +1,8 @@
-import type { NextPage } from 'next';
-import CreditExperience from '../components/CreditExperience';
+import type { NextPage } from "next";
+import CreditExperience from "../components/CreditExperience";
 
 const Home: NextPage = () => {
-  return (
-    <CreditExperience/>
-  )
-}
+  return <CreditExperience />;
+};
 
-export default Home
+export default Home;
