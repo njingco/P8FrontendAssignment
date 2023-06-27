@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 import { Slider } from "@material-ui/core";
-import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme, MuiThemeProvider, Theme } from "@material-ui/core/styles";
 import content from "../../assets/content_en.json";
 
 interface Props {
@@ -33,17 +33,17 @@ const ValueSub = tw.div`
     text-slider-lable-size
 `;
 
-const sliderTheme = createTheme({
+const sliderTheme: Theme = createTheme({
   overrides: {
     MuiSlider: {
       root: {
-        color: "#2e60ca",
+        color: "#40a2e4",
       },
       thumb: {
         color: "white",
         borderStyle: "solid",
         borderWidth: "2px",
-        borderColor: "#2e60ca",
+        borderColor: "#40a2e4",
       },
       rail: {
         color: "#a1adb8",

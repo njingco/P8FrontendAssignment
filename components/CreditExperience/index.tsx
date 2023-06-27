@@ -17,8 +17,8 @@ const Container = tw.div`
     w-full
     flex
     justify-center
-    flex-col
-    gap-5
+    flex-col-reverse
+    gap-10
     md:flex-row
     md:gap-20
 `;
@@ -26,6 +26,7 @@ const Container = tw.div`
 const Content = tw.div`
     w-full
 `;
+
 const Input = tw.div`
     w-full
     mt-6
@@ -47,8 +48,6 @@ const SubTitle = tw.h2`
 const Header = tw.div`
     w-full
 `;
-
-const axios = require("axios").default;
 
 function CreditExperience() {
   const yearsPeriods = [20, 25, 30];
@@ -104,7 +103,6 @@ function CreditExperience() {
               onChange={setInterestRate}
             />
           </Input>
-
           <Input>
             <RadioButtons yearsList={yearsPeriods} onChange={setPeriod} />
           </Input>

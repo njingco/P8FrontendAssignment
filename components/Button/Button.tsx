@@ -65,7 +65,7 @@ export default function Button({ label }: { label: string }) {
       data-mdb-ripple="true"
       data-mdb-ripple-color="light"
       onClick={() => {
-        console.log(label);
+        console.log(label, "Clicked");
       }}
     >
       <ButtonText>{label}</ButtonText>

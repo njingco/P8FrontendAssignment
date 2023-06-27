@@ -18,9 +18,9 @@ const Wrapper = tw.div`
     items-center
     shadow-lg
     w-full
-    h-72
+    h-80
     p-5
-    md:h-80
+    md:h-5/6
     md:max-w-xl
 `;
 
@@ -29,6 +29,7 @@ const Content = tw.div`
     flex-col
     justify-center
     items-center
+    md:gap-12
 `;
 
 const Title = tw.div`
