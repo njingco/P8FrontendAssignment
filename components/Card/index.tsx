@@ -2,12 +2,6 @@ import tw from "twin.macro";
 import content from "../../assets/content_en.json";
 import Button from "../Button/Button";
 
-interface Props {
-  total: number;
-  isLoading: boolean;
-  errorMsg: string;
-}
-
 const Wrapper = tw.div`
     relative
     bg-white
@@ -63,7 +57,13 @@ const ErrorMessage = tw`
     text-lg
 `;
 
-export default function CardTotal({ total, isLoading, errorMsg }: Props) {
+interface Props {
+  total: number;
+  isLoading: boolean;
+  errorMsg: string;
+}
+
+export default function Card({ total, isLoading, errorMsg }: Props) {
   const value = total.toFixed(2);
   const number = value.toString().split(".")[0];
   const decimal = value.toString().split(".")[1];
